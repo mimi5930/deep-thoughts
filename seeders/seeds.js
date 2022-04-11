@@ -28,7 +28,9 @@ db.once('open', async () => {
     let friendId = userId;
 
     while (friendId === userId) {
-      const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
+      const randomUserIndex = Math.floor(
+        Math.random() * createdUsers.ops.length
+      );
       friendId = createdUsers.ops[randomUserIndex];
     }
 
@@ -60,7 +62,9 @@ db.once('open', async () => {
     const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
     const { username } = createdUsers.ops[randomUserIndex];
 
-    const randomThoughtIndex = Math.floor(Math.random() * createdThoughts.length);
+    const randomThoughtIndex = Math.floor(
+      Math.random() * createdThoughts.length
+    );
     const { _id: thoughtId } = createdThoughts[randomThoughtIndex];
 
     await Thought.updateOne(
