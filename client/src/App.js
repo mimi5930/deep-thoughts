@@ -7,6 +7,8 @@ import {
 	createHttpLink
 } from '@apollo/client';
 
+import { setContext } from '@apollo/client/link/context';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -20,12 +22,24 @@ import SingleThought from './pages/SingleThought';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 
+// make sure there's a proxy in package.json when using uri
 const httpLink = createHttpLink({
 	uri: '/graphql'
 });
 
+// set jwt as header for queries/mutations
+const authLink = setContext((_, { headers }) => {
+	const token = localStorage.getItem('id_token');
+	return {
+		headers: {
+			...headers,
+			authorization: token ? `Bearer ${token}` : ''
+		}
+	};
+});
+
 const client = new ApolloClient({
-	link: httpLink,
+	link: authLink.concat(httpLink),
 	cache: new InMemoryCache()
 });
 
